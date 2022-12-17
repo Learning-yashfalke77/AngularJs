@@ -1,0 +1,9 @@
+<strong>{{employee.name}}</strong> - {{employee.designation}} 
+<div ng-show="!!employee.followers">
+    <ul>
+        <li ng-repeat='name in employee.followers'>{{name}}</li>
+    </ul>
+    <button ng-click="follow('sandip')">Follow</button>
+    <p>{{message}}</p>
+    <button ng-click="nominate('yash only')">Nominate</button>
+</div>

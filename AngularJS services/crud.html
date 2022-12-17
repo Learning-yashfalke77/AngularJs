@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script src="./angular.js"></script>
+    <script>
+        (function () {
+            const name = "myApp", requires = [];
+            const myApp = angular.module(name, requires);
+            const url = "https://jsonplaceholder.typicode.com/posts"
+
+            // services
+            myApp.factory("postDataService", function ($http, $q) {
+                return {
+                    getPost: function () {
+
+                        const deferred = $q.defer()
+                        $http.get(url)
+                            .success(function (data) {
+                                deferred.resolve(data)
+                            })
+                            .error(function (error) {
+                                deferred.reject(error)
+                            })
+                        return deferred.promise
+                    },
+                    addPost: function (post) {
+                        const deferred = $q.defer()
+                        $http.post(url,post)
+                            .success(function (data) {
+                                deferred.resolve(data)
+                            })
+                            .error(function (error) {
+                                deferred.reject(error)
+                            })
+                        return deferred.promise
+                    }
+
+                }
+            })
+
+
+
+            // controller
+            myApp.controller("AppCtrl", function ($scope, $http, postDataService) {
+                $scope.posts = []
+                $scope.toggleAddPostView = false
+                $scope.toggleEditPostView = false
+
+                $scope.loadCourses = function () {
+                    $scope.posts = postDataService.getPost().then(success, error)
+
+                    function success(data) {
+                        $scope.posts = data
+                    }
+                    function error(e) {
+                        console.log(e)
+                    }
+                }
+
+                $scope.toggleAddPost = function (flag) {
+                    $scope.toggleAddPostView = flag
+                }
+                $scope.addPost = function (post) {
+                    $scope.posts = postDataService.addPost(post).then(success, error)
+
+                    function success(data) {
+                        $scope.loadCourses()
+                        console.log(data)
+                    }
+                    function error(e) {
+                        console.log(e)
+                    }
+
+                }
+
+                $scope.toggleEditPost = function (flag) {
+                    $scope.toggleEditPostView = flag
+                }
+                $scope.editPost = function (post) {
+                    $scope.toggleEditPost(true)
+                    $scope.edit = angular.copy(post)
+                }
+                $scope.updatePost = function (edit) {
+                    $http.put(url + "/" + edit.id, edit)
+                        .success(function (data) {
+                            $scope.loadCourses()
+                            console.log(data)
+                        })
+                }
+
+                $scope.deletePost = function (del) {
+                    console.log(del)
+                    $http.delete(url + "/" + del.id, del)
+                        .success(function (data) {
+                            $scope.loadCourses()
+                            console.log(data)
+                        })
+                }
+            })
+        }());
+    </script>
+</head>
+
+<body ng-controller="AppCtrl as app" ng-cloak>
+
+    <button ng-click="loadCourses()">Load Courses</button>
+    <button ng-click="toggleAddPost(true)">Add Course</button>
+
+    <ng-include src="'partials/post_list.html'"></ng-include>
+    <ng-include src="'partials/add_post.html'" ng-show="toggleAddPostView"></ng-include>
+    <ng-include src="'partials/edit_post.html'" ng-show="toggleEditPostView"></ng-include>
+</body>
+
+</html>

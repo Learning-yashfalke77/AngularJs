@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script src="./angular.js"></script>
+    <script src="./angular-route.js"></script>
+    <script>
+        (function () {
+            const name = "myApp", requires = ["ngRoute"];
+            const myApp = angular.module(name, requires);
+            const url = "https://jsonplaceholder.typicode.com/posts"
+
+            // configurations
+            myApp.config(function ($routeProvider) {
+                $routeProvider
+                    .when("/posts", {
+                        templateUrl: "partials/post_list.html",
+                        controller: "PostCtrl"
+                    })
+                    .when("/post/add", {
+                        templateUrl: "partials/add_post.html",
+                        controller: "PostCtrl"
+                    })
+                    .when("/post/edit/:id", {
+                        templateUrl: "partials/edit_post.html",
+                        controller: "PostCtrl"
+                    })
+                    .otherwise({
+                        redirectTo: "/posts"
+                    })
+            })
+
+            // services
+            myApp.factory("postDataService", function ($http, $q) {
+                return {
+                    getPost: function () {
+
+                        const deferred = $q.defer()
+                        $http.get(url)
+                            .success(function (data) {
+                                deferred.resolve(data)
+                            })
+                            .error(function (error) {
+                                deferred.reject(error)
+                            })
+                        return deferred.promise
+                    },
+                    addPost: function (post) {
+                        const deferred = $q.defer()
+                        $http.post(url, post)
+                            .success(function (data) {
+                                deferred.resolve(data)
+                            })
+                            .error(function (error) {
+                                deferred.reject(error)
+                            })
+                        return deferred.promise
+                    },
+                    getPostById: function (id) {
+                        const deferred = $q.defer()
+                        $http.get(url + "/" + id)
+                            .success(function (data) {
+                                deferred.resolve(data)
+                            })
+                            .error(function (error) {
+                                deferred.reject(error)
+                            })
+                        return deferred.promise
+                    }
+
+                }
+            })
+
+
+
+            // controller
+            myApp.controller("PostCtrl", function ($scope, $http, postDataService, $location, $routeParams) {
+                $scope.posts = []
+
+                if ($routeParams.id != undefined) {
+                    console.log($routeParams.id)
+                    postDataService.getPostById($routeParams.id).then(success)
+
+                    function success(data) {
+                        $scope.edit = data
+                    }
+                    function error(e) {
+                        console.log(e)
+                    }
+                }
+
+                $scope.loadCourses = function () {
+                    $scope.posts = postDataService.getPost().then(success, error)
+
+                    function success(data) {
+                        $scope.posts = data
+                    }
+                    function error(e) {
+                        console.log(e)
+                    }
+                }
+
+                $scope.loadCourses()
+
+                $scope.addPost = function (post) {
+                    $scope.posts = postDataService.addPost(post).then(success, error)
+
+                    function success(data) {
+                        $scope.loadCourses()
+                        $location.path("/posts")
+                        console.log(data)
+                    }
+                    function error(e) {
+                        console.log(e)
+                    }
+
+                }
+
+
+                $scope.updatePost = function (edit) {
+                    $http.put(url + "/" + edit.id, edit)
+                        .success(function (data) {
+                            $scope.loadCourses()
+                            $location.path("/posts")
+                            console.log(data)
+                        })
+                }
+
+                $scope.deletePost = function (del) {
+                    console.log(del)
+                    $http.delete(url + "/" + del.id, del)
+                        .success(function (data) {
+                            $scope.loadCourses()
+                            console.log(data)
+                        })
+                }
+            })
+        }());
+    </script>
+</head>
+
+<body>
+
+
+    <a href="#post/add">Add new Post</a>
+
+    <div ng-view></div>
+</body>
+
+</html>

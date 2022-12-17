@@ -1,0 +1,13 @@
+<div>
+    Edit Course
+    <form>
+        <label for="">Post Title</label>
+        <input type="text" ng-model="edit.title"> <br>
+        <label for="">UserID</label>
+        <input type="number" ng-model="edit.userId"><br>
+        <label for="">Body</label>
+        <input type="text" ng-model="edit.body"><br>
+        <button ng-click="updatePost(edit)">submit</button>
+        <button ng-click="toggleEditPost(false)">cancel</button>
+    </form>
+</div>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script src="./angular.js"></script>
+    <script>
+        (function () {
+            const name = "myApp", requires = [];
+            const myApp = angular.module(name, requires);
+
+            // dependency injection using scope
+            myApp.controller("AppCtrl", function ($scope) {
+
+                // model
+                $scope.employee = {
+                    firstName: "Sandip",
+                    lastName: "Gautam",
+                    occupation: "Web Developer"
+                }
+
+                $scope.showMsg = function () {
+                    console.log("showing msg")
+                }
+            })
+        }());
+    </script>
+</head>
+
+<body ng-controller="AppCtrl as app">
+    <p>{{employee.firstName + "" + employee.lastName + " - " + employee.occupation}}</p>
+    <button ng-click="showMsg()">Click Me</button>
+</body>
+
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <!-- you can add any custom attribute to  -->
+    <div data-highlight="true">I am a Div</div>
+    <div data-highlight="false">I am a another Div</div>
+
+    <script src="./angular.js"></script>
+    <script src="./jquery-3.6.1.js"></script>
+    <script>
+
+        // In angular everything is module, creating module
+        const myApp = angular.module("myApp", []);
+        console.log(myApp);
+
+
+        // IFffi - Immediately Invoked function expression
+        // solving the problem of global scope
+        (function () {
+            const com = {}
+            com.myDomain = {}
+            com.myDomain.Aprogram = {}
+
+            com.myDomain.Aprogram.utility = function () {
+                console.log("Programmer a utility function");
+            }
+
+            com.myDomain.Aprogram.utility()
+        }());
+
+        // moving module to iffi
+        (function () {
+            let name = "myApp", requires = []
+            // here requires is the dependency of the module
+            const myApp = angular.module(name, requires)
+        }());
+
+        console.log(angular.module("myApp"))
+
+
+    </script>
+
+    <script>
+        // HTML Specials
+        $("div[data-highlight='true']").css("background", "blue")
+    </script>
+
+</body>
+
+</html>

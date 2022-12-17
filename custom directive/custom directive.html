@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script src="./angular.js"></script>
+    <script>
+        (function () {
+            const name = "myApp", requires = [];
+            const myApp = angular.module(name, requires);
+
+            // custom directive
+            myApp.directive("employeeCard", function () {
+                return {
+                    // template: "<strong>{{employee.name}}</strong> - {{employee.designation}} <div><ul><li ng-repeat='name in employee.followers'>{{name}}</li></ul></div>",
+                    templateUrl: "employee_info.html",
+                    restrict: "AEC",
+                    // atrribute, element, class
+                    controller: function ($scope) {
+
+                        $scope.follow = function (name) {
+                            $scope.employee.followers.push(name)
+                        }
+
+                        $scope.nominate = function(name) {
+                            console.log(name)
+                            $scope.sendNominations(name)
+                        }
+                    },
+                    scope: {
+                        employee: "=",
+                        message: "@",   // when attribute and field is same
+                        sendNominations: "&"
+                    }
+                }
+            })
+
+            myApp.controller("AppCtrl", function ($scope, $http) {
+                $scope.employee = {
+                    name: "Yash Falke",
+                    designation: "web developer",
+                    followers: ["Andrew", "Jimmy", "Julie"],
+                }
+
+                $scope.sendNominations = function (name) {
+                    console.log(name)
+                    console.log(name+"you are the nominee for this function")
+                }
+
+            })
+        }());
+    </script>
+</head>
+
+<body ng-controller="AppCtrl as app" ng-cloak>
+    <!-- we can use directive in two way as a html element or as a attribute -->
+    <employee-card employee="employee" message="Employee of the yaer 2015"></employee-card>
+</body>
+
+</html>

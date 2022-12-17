@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./angular.js"></script>
+    <script>
+        (function () {
+            const name = "myApp", requires = [];
+            const myApp = angular.module(name, requires);
+            myApp.controller("AppCtrl", function () {
+                this.result = 0;
+                this.calculate = function (firstNum, secondNum) {
+                    this.result = parseInt(firstNum) + parseInt(secondNum);
+                }
+            })
+        }());
+    </script>
+</head>
+
+<body ng-controller="AppCtrl as app">
+    <h1>addition of two numbers</h1>
+    <input ng-model="app.firstNum" type="text" id="firstNumInput"><br>
+    <input ng-model="app.secondNum" type="text" id="secondNumInput"><br>
+    <button ng-click="app.calculate(app.firstNum, app.secondNum)" id="calculateBtn">calculate</button><br>
+    result <p id="result" ng-bind="app.result"></p><br>
+</body>
+
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script src="./angular.js"></script>
+    <script>
+        (function () {
+            const name = "myApp", requires = [];
+            const myApp = angular.module(name, requires);
+            myApp.controller("AppCtrl", function ($scope, $timeout) {
+                $scope.contacts = [
+                    { firstName: "John", lastName: "Smith", favourite: true },
+                    { firstName: "Jimmy", lastName: "Jacob", favourite: false },
+                    { firstName: "Charles", lastName: "Bailey", favourite: true },
+                    { firstName: "Jacob", lastName: "Batman", favourite: true },
+                ]
+
+                $scope.addContact = function () {
+                    $scope.contacts.push({ firstName: "Julia", lastName: "Robert" })
+                }
+
+                $scope.newContact = false
+
+                $scope.toggleNewContact = function () {
+                    $scope.newContact = !$scope.newContact
+                }
+
+                $scope.checkMe = true
+
+                $scope.url = ""
+                $timeout(function () {
+                    $scope.url = "http://google.com";
+                }, 3000);
+
+
+            })
+        }());
+    </script>
+</head>
+
+<body ng-controller="AppCtrl as app" ng-cloak>
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Favourites</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr ng-repeat="contact in contacts">
+                <td>{{$index}}</td>
+                <td>{{contact.firstName}}</td>
+                <td>{{contact.lastName}}</td>
+                <td>{{contact.favourite}}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <button ng-click="toggleNewContact()">Add new contact</button>
+
+
+    <!-- here ng-show and ng-hide element will be hidden but they are present in the dom -->
+    <!-- ng-show: show element based on condition -->
+    <!-- ng-hide: hide element based on condition -->
+
+    <form ng-show="newContact">
+        <label for="">First Name</label>
+        <input type="text">
+        <br>
+        <label for="">last Name</label>
+        <input type="text">
+        <br>
+        <label for="">Favourite</label>
+        <input type="checkbox">
+        <br>
+        <button>submit</button>
+        <button>cancel</button>
+    </form>
+
+    {{checkMe}}
+
+    <input type="checkbox" ng-checked="{{checkMe}}" /> Check Me! <br />
+    <button ng-disabled="{{checkMe}}">Click Me!</button> <br />
+    <input type=" text" value="Some Text" ng-readonly={{checkMe}} />
+    <a ng-href="{{url}}">to google.com</a>
+    <!-- similary for ng-src for image -->
+
+
+
+
+
+
+</body>
+
+</html>

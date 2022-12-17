@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script src="./angular.js"></script>
+    <script>
+        (function () {
+            const name = "myApp", requires = [];
+            const myApp = angular.module(name, requires);
+            myApp.controller("AppCtrl", function ($scope) {
+                $scope.contacts = [
+                    { firstName: "John", lastName: "Smith", favourite: true },
+                    { firstName: "Jimmy", lastName: "Jacob", favourite: false },
+                    { firstName: "Charles", lastName: "Bailey", favourite: true },
+                    { firstName: "Jacob", lastName: "Batman", favourite: true },
+                ]
+
+                $scope.addContact = function () {
+                    $scope.contacts.push({ firstName: "Julia", lastName: "Robert" })
+                }
+
+                $scope.viewList = false
+
+                $scope.viewFile = function () {
+                    if ($scope.viewList === true) {
+                        return 'contact_list.html'
+                    } else {
+                        return 'contact_table.html'
+                    }
+                }
+
+                $scope.onPartialLoad = function () {
+                    console.log($scope.viewFile())
+                }
+
+                $scope.data = {}
+
+            })
+        }());
+    </script>
+</head>
+
+<body ng-controller="AppCtrl as app" ng-cloak>
+    <!-- repeat directive -->
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Favourites</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr ng-repeat="contact in contacts">
+                <td>{{$index}}</td>
+                <td>{{contact.firstName}}</td>
+                <td>{{contact.lastName}}</td>
+                <td>{{contact.favourite}}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li ng-repeat="(key, value) in contacts[0]"> {{key}} - {{value}}</li>
+    </ul>
+
+    <label
+        for="">------------------------------------------------------------------------------------------------------------------------------------------------------------------</label>
+    <br>
+
+    <!-- MG Include -->
+    <!-- <ng-include src="'contact_table.html'"></ng-include> -->
+
+    <input type="checkbox" ng-model="viewList"> Toggle List view
+    <ng-include src="viewFile()" onload="onPartialLoad()"></ng-include>
+
+    <!-- ng switch -->
+    <div ng-repeat="channel in ['None', 'Star TV', 'Star World']">
+        <input type="radio" name="leisure" value="{{channel}}" ng-model="data.whichChannel" ng-checked="$first">
+        {{channel}}
+    </div>
+
+    <div ng-switch on="data.whichChannel">
+        <div ng-switch-default>You are watching None</div>
+        <div ng-switch-when="Star TV">You are watching Start tv</div>
+        <div ng-switch-when="Star">You are watching star world</div>
+    </div>
+
+</body>
+
+</html>

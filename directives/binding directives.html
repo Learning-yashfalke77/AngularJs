@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script src="./angular.js"></script>
+    <script>
+        (function () {
+            const name = "myApp", requires = [];
+            const myApp = angular.module(name, requires);
+            myApp.controller("AppCtrl", function ($scope) {
+                $scope.contacts = [
+                    { firstName: "John", lastName: "Smith" },
+                    { firstName: "Jimmy", lastName: "Jacob" },
+                    { firstName: "Charles", lastName: "Bailey" },
+                    { firstName: "Jacob", lastName: "Batman" },
+                ]
+
+                $scope.addContact = function () {
+                    $scope.contacts.push({ firstName: "Julia", lastName: "Robert" })
+                }
+            })
+        }());
+    </script>
+</head>
+
+<body ng-controller="AppCtrl as app">
+    <!-- ---------------------- ONE WAY BINDING DIRECTIVES ---------------------------------------  -->
+
+    <!-- String Interoploation , Its binding of expression into html , It is not one time binding -->
+    <div>Total number of: {{contacts.length}}</div>
+
+    <!-- Above thing is one time binding -->
+    <div>One time binding for total number of: {{::contacts.length}} and first contact is {{contacts[0].firstName}}
+    </div>
+
+    <!-- if data and state coming from server , and should display when we get data from the server., for this ng-bind is used  -->
+    <!-- ng bind cannot have multiple expressions -->
+    <div ng-bind="contacts.length"></div>
+
+    <!-- to have bind multiple expression we can have ng-bind-template -->
+    <div
+        ng-bind-template="One time binding for total number of: {{::contacts.length}} and second contact is {{contacts[1].firstName}}">
+    </div>
+
+    <!-- to escape from the template of string interopolation we can have to use ng-non-bindable -->
+    <div ng-non-bindable>
+        {{this will not be evaluated}} if use above directive
+    </div>
+    <button ng-click="addContact()">Add Contact</button>
+
+
+    <!-- If you dont want to use directive as a attribute then you can use it in other way  -->
+    <div class="ng-bind: contacts.length"></div>
+
+    <!-- ---------------------------- Directives using as a ELEMENT ------------------------- -->
+    <ng-include></ng-include>
+
+
+    <!-- ---------------------- TWO WAY BINDING DIRECTIVES ---------------------------------------  -->
+    <!-- NG MODEL -->
+
+    <div>
+
+        {{contacts[0].firstName}} {{contacts[0].lastName}}
+
+        First Name: <input id="firstName" type="text" ng-model="contacts[0].firstName">
+        last Name: <input id="lastName" type="text" ng-model="contacts[0].lastName">
+    </div>
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script src="./angular.js"></script>
+    <script>
+        (function () {
+            const name = "myApp", requires = [];
+            const myApp = angular.module(name, requires);
+            myApp.controller("AppCtrl", function ($scope) {
+
+            })
+        }());
+    </script>
+
+    <style>
+        .strike {
+            text-decoration: line-through;
+        }
+
+        .bold {
+            font-weight: bold;
+        }
+
+        .red {
+            color: red;
+        }
+    </style>
+</head>
+
+<body ng-controller="AppCtrl as app" ng-cloak>
+
+    <!-- inline styles:  bad practice -->
+
+    <button ng-click="styles={'color': 'red'}">Set Color</button>
+    <button ng-click="styles={'font-weight': 'bold'}">Set Bold</button>
+    <button ng-click="styles={'font-style': 'italic'}">Set Italic</button>
+
+    <p ng-style="styles">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat assumenda earum nam voluptas
+        quam rerum voluptatum iste enim nihil, at cum! Autem ipsum delectus nihil unde molestiae esse maxime quod.</p>
+
+    <!-- styles as classes -->
+    <!-- 1 -->
+    <input type="text" ng-model="style" placeholder="type strike bold red">
+    <p ng-class="style">Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti numquam excepturi neque dolore
+        repellendus, voluptatem consectetur reprehenderit non illum facilis atque placeat tempora illo sint quas ad.
+        Architecto, dignissimos placeat!</p>
+
+    <hr>
+    <!-- using object -->
+    <input type="checkbox" ng-model="deleted" name="" id=""> deleted (apply strike class) <br>
+    <input type="checkbox" ng-model="important" name="" id=""> important (apply bold class) <br>
+    <input type="checkbox" ng-model="error" name="" id=""> error (apply red class) <br>
+    <p ng-class="{strike: deleted, bold: important, red: error}">Lorem ipsum dolor sit amet consectetur adipisicing
+        elit. Ratione iste sunt ipsam molestiae, doloremque, beatae
+        quasi assumenda illo consequuntur est aliquid placeat alias nisi natus voluptate aut dolores harum in.</p>
+
+    <!-- using object -->
+    <p ng-class="['strike', 'bold', 'red']">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Iure quis neque ad
+        enim ratione quaerat reprehenderit porro provident architecto nesciunt facilis explicabo temporibus quo est, ab
+        quisquam dolores adipisci rem.</p>
+
+
+</body>
+
+</html>

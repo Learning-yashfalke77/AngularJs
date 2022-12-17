@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script src="./angular.js"></script>
+    <script>
+        (function () {
+            const name = "myApp", requires = [], taskData = {
+                task: "Deep dive & Understanding Angular JS",
+                status: true
+            };
+            const myApp = angular.module(name, requires);
+
+            // dependency injection using scope
+            myApp.controller("AppCtrl", function ($scope) {
+                $scope.taskData = taskData
+                $scope.showStatus = function () {
+                    console.log($scope.taskData.status)
+                }
+            })
+        }());
+    </script>
+</head>
+
+<body ng-controller="AppCtrl as app">
+    <h1>Data Binding Angular Way</h1>
+    Task: <span id="task">Example Task</span> <br>
+    Done: <input type="checkbox" id="statusCheck" ng-model="taskData.status" ng-click="showStatus()">
+</body>
+
+</html>

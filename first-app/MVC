@@ -1,0 +1,10 @@
+MVC is seperation of crncerns
+Model: store and manage data
+View: presentation of data
+controller: action that can be taken and perform buisness logic
+
+
+create mp3 player have list of songs and controls to play the song go to the next ore previous song
+model: playlist
+view: list of song  display
+controller: activity of playing song 

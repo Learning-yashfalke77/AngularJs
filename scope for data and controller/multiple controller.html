@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script src="./angular.js"></script>
+    <script>
+        (function () {
+            const name = "myApp", requires = [];
+            const myApp = angular.module(name, requires);
+            myApp.controller("AppCtrl", function ($scope) {
+                $scope.$on("removeProduct", function (evt, data) {
+                    console.log("remove product", data.name)
+
+                })
+            })
+
+            // Children controller Scope can have properties of Parent Controller Scope
+            myApp.controller("ProductCtrl", function ($scope, $rootScope) {
+                $scope.products = [
+                    { name: "Mobile", price: 10 },
+                    { name: "Music System", timeline: 20, price: 80 },
+                    { name: "Clothes", timeline: 40, price: 40 },
+                    { name: "Watch", timeline: 20, price: 50 },
+                    { name: "Computer", timeline: 40, price: 350 },
+                ]
+
+                $scope.addToCart = function (product) {
+                    // transmitting from parent to child
+                    $rootScope.$broadcast("addProduct", product)
+                }
+
+            })
+            myApp.controller("CartCtrl", function ($scope) {
+                $scope.carts = [
+                ]
+
+                // recieveing
+                $scope.$on("addProduct", add)
+                function add(evt, product) {
+                    $scope.carts.push(product)
+                }
+
+                $scope.removeFromCart = function (cart) {
+                    // transmitting from child to parent
+                    $scope.$emit("removeProduct", cart)
+                }
+
+            })
+        }());
+    </script>
+</head>
+
+<body ng-controller="AppCtrl as app" ng-cloak>
+
+    <div ng-controller="ProductCtrl">
+        <h1>Product</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Add to cart</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr ng-repeat="product in products">
+                    <td>{{$index}}</td>
+                    <td>{{product.name}}</td>
+                    <td>{{product.price | currency: "₹"}}</td>
+                    <td><button ng-click="addToCart(product)">Add to cart</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div ng-controller="CartCtrl">
+        <h1>Cart Controller</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Remove from cart</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr ng-repeat="cart in carts">
+                    <td>{{$index}}</td>
+                    <td>{{cart.name}}</td>
+                    <td>{{cart.price | currency: "₹"}}</td>
+                    <td><button ng-click="removeFromCart(cart)">Remove from cart</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</body>
+
+</html>

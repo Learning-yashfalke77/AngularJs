@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script src="./angular.js"></script>
+    <script>
+        (function () {
+            const name = "myApp", requires = [];
+            const myApp = angular.module(name, requires);
+            myApp.controller("AppCtrl", function ($scope) {
+                $scope.contacts = [
+                    { firstName: "John", lastName: "Smith", favourite: true },
+                    { firstName: "Jimmy", lastName: "Jacob", favourite: false },
+                    { firstName: "Charles", lastName: "Bailey", favourite: true },
+                    { firstName: "Jacob", lastName: "Batman", favourite: true },
+                ]
+
+                $scope.addContact = function () {
+                    $scope.contacts.push({ firstName: "Julia", lastName: "Robert" })
+                }
+
+                $scope.viewList = false
+
+                $scope.viewFile = function () {
+                    if ($scope.viewList === true) {
+                        return 'contact_list.html'
+                    } else {
+                        return 'contact_table.html'
+                    }
+                }
+
+                $scope.onPartialLoad = function () {
+                    console.log($scope.viewFile())
+                }
+
+                $scope.data = {}
+
+            })
+        }());
+    </script>
+</head>
+
+<body ng-controller="AppCtrl as app" ng-cloak>
+    event handler , ng-click , ng-mouseDown, $event is passed automatically to the callback function
+
+</body>
+
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script src="./angular.js"></script>
+    <script>
+        (function () {
+            const name = "myApp", requires = [];
+            const myApp = angular.module(name, requires);
+            myApp.controller("AppCtrl", function ($scope) {
+
+            })
+
+            // Children controller Scope can have properties of Parent Controller Scope
+            myApp.controller("ParentCtrl", function ($scope, $rootScope) {
+                $scope.name = "John"
+            })
+
+            myApp.controller("ChildCtrl", function ($scope) {
+                // john is not initated in child controller it will take from parent controller
+                // if you do not want parents and child controller not same then go for this method
+            })
+            myApp.controller("Parent1Ctrl", function ($scope, $rootScope) {
+                $scope.vm = {
+                    name: "john"
+                }
+            })
+
+            myApp.controller("Child1Ctrl", function ($scope) {
+                // john is not initated in child controller it will take from parent controller
+                // if you do not want parents and child controller not same then go for this method
+                // Here parent and child will have syncup value
+            })
+
+        }());
+    </script>
+</head>
+
+<body ng-controller="AppCtrl as app" ng-cloak>
+
+    <div ng-controller="ParentCtrl">
+        <label>[Parent Controller] - name:</label>
+        <input ng-model="name">
+        <div ng-controller="ChildCtrl">
+            <label>[Child Controller] - name:</label>
+            <input ng-model="name">
+
+            <ul>
+                <li>child controller name: {{name}} </li>
+                <li>parent controller name: {{$parent.name}}</li>
+            </ul>
+        </div>
+    </div>
+
+    <br><br>
+    <div ng-controller="Parent1Ctrl">
+        <label>[Parent1 Controller] - name:</label>
+        <input ng-model="vm.name">
+        <div ng-controller="Child1Ctrl">
+            <label>[Child1 Controller] - name:</label>
+            <input ng-model="vm.name">
+
+            <ul>
+                <li>child controller name: {{vm.name}} </li>
+                <li>parent controller name: {{$parent.vm.name}}</li>
+            </ul>
+        </div>
+    </div>
+
+</body>
+
+</html>

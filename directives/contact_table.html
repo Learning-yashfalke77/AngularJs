@@ -1,0 +1,19 @@
+<table>
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Favourites</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr ng-repeat="contact in contacts">
+            <td>{{$index}}</td>
+            <td>{{contact.firstName}}</td>
+            <td>{{contact.lastName}}</td>
+            <td>{{contact.favourite}}</td>
+        </tr>
+    </tbody>
+</table>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script src="./angular.js"></script>
+    <script>
+        (function () {
+            const name = "myApp", requires = [];
+            const myApp = angular.module(name, requires);
+            myApp.controller("AppCtrl", function ($scope, $http) {
+                $scope.users = []
+
+                $scope.loadData = function () {
+                    console.log("ikjnmkm")
+                    $http.get("https://jsonplaceholder.typicode.com/users")
+                        .success(function (data) {
+                            $scope.users = data
+                            console.log(data)
+                        })
+                        .error(function (data) {
+                            console.log("something went wrong", data)
+                            
+                        })
+                }
+            })
+        }());
+    </script>
+</head>
+
+<body ng-controller="AppCtrl as app" ng-cloak>
+
+    <div>
+        <h1>Users</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Username</th>
+                    <th>City</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr ng-repeat="user in users">
+                    <td>{{user.id}}</td>
+                    <td>{{user.name}}</td>
+                    <td>{{user.username}}</td>
+                    <td>{{user.address.city}}</td>
+                </tr>
+            </tbody>
+        </table>
+        <button ng-click="loadData()">Load Data</button>
+    </div>
+</body>
+
+</html>

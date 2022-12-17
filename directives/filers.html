@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script src="./angular.js"></script>
+    <script>
+        (function () {
+            const name = "myApp", requires = [];
+            const myApp = angular.module(name, requires);
+            myApp.controller("AppCtrl", function ($scope) {
+                $scope.courses = [
+                    { name: "QuickStart Angular Js", category: "development", timeline: 30, price: 25 },
+                    { name: "How to draft a buisness plan ", category: "buisness", timeline: 20, price: 21 },
+                    { name: "Body Language for entrepreneurs", category: "Personal Development", timeline: 40, price: 50 },
+                    { name: "Music Theory Classes", category: "Music", timeline: 20, price: 20 },
+                    { name: "SEO for StartUp Business", category: "Marketing", timeline: 40, price: 29 },
+                    { name: "SEO for StartUp Business", category: "Marketing", timeline: 40, price: 29 },
+                    { name: "SEO for StartUp Business", category: "Marketing", timeline: 40, price: 29 },
+                    { name: "SEO for StartUp Business", category: "Marketing", timeline: 40, price: 29 },
+                    { name: "SEO for StartUp Business", category: "Marketing", timeline: 40, price: 29 },
+                    { name: "SEO for StartUp Business", category: "Marketing", timeline: 40, price: 29 },
+                    { name: "SEO for StartUp Business", category: "Marketing", timeline: 40, price: 29 },
+                    { name: "SEO for StartUp Business", category: "Marketing", timeline: 40, price: 29 },
+                    { name: "SEO for StartUp Business", category: "Marketing", timeline: 40, price: 29 },
+                    { name: "SEO for StartUp Business", category: "Marketing", timeline: 40, price: 29 }
+                ]
+
+                $scope.limitVal = 10
+
+            })
+        }());
+    </script>
+</head>
+
+<body ng-controller="AppCtrl as app" ng-cloak>
+    <!-- There are two type of filters / pipes in angularJs -->
+    <!-- 1) formatting filters 2) Array transforming filters -->
+
+    <!-- Formatting Filters -->
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Timeline</th>
+                <th>Price</th>
+                <th>json</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr ng-repeat="course in courses">
+                <td>{{$index}}</td>
+                <td>{{course.name | uppercase}}</td>
+                <td>{{course.category | lowercase}}</td>
+                <td>{{course.timeline}}</td>
+                <td>{{course.price | currency: "₹"}}</td>
+                <td>{{course | json}}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Array Transforming Filters -->
+
+    <!-- 1) limitTo -->
+    <h1>Courses - {{courses.length}}</h1>
+    <button ng-click="limitVal = 5">5</button>
+    <button ng-click="limitVal = 10">10</button>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Timeline</th>
+                <th>Price</th>
+                <th>json</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr ng-repeat="course in courses | limitTo:limitVal">
+                <td>{{$index}}</td>
+                <td>{{course.name | uppercase}}</td>
+                <td>{{course.category | lowercase}}</td>
+                <td>{{course.timeline}}</td>
+                <td>{{course.price | currency: "₹"}}</td>
+                <td>{{course | json}}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- filter filter -->
+
+    <br><br>
+    Name: <input type="text" ng-model="name"> <br>
+    Category <input type="text" ng-model="category">
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Timeline</th>
+                <th>Price</th>
+                <th>json</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr ng-repeat="course in courses | filter: {name: name, category: category}">
+                <td>{{$index}}</td>
+                <td>{{course.name | uppercase}}</td>
+                <td>{{course.category | lowercase}}</td>
+                <td>{{course.timeline}}</td>
+                <td>{{course.price | currency: "₹"}}</td>
+                <td>{{course | json}}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Order By -->
+    <br><br>
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Timeline</th>
+                <th>Price</th>
+                <th>json</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr ng-repeat="course in courses | orderBy: 'price'">
+                <td>{{$index}}</td>
+                <td>{{course.name | uppercase}}</td>
+                <td>{{course.category | lowercase}}</td>
+                <td>{{course.timeline}}</td>
+                <td>{{course.price | currency: "₹"}}</td>
+                <td>{{course | json}}</td>
+            </tr>
+        </tbody>
+    </table>
+
+
+</body>
+
+</html>

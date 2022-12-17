@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script src="./angular.js"></script>
+    <script>
+        (function () {
+            const name = "myApp", requires = [];
+            const myApp = angular.module(name, requires);
+
+            // custom directive
+            myApp.directive("allowNumbersOnly", function () {
+                return {
+                    restrict: "A",
+                    link: function (scope,element,attrs) {
+                        var msg = attrs.allowNumbersOnly
+                        var spanEle = angular.element("<span></span>")
+                        spanEle.html(msg)
+                        element.after(spanEle)
+                    }
+                }
+            })
+
+            myApp.controller("AppCtrl", function ($scope, $http) {
+                $scope.title = "Decorator"
+            })
+        }());
+    </script>
+</head>
+
+<body ng-controller="AppCtrl as app" ng-cloak>
+    <input type="text" allow-numbers-only="please enter the numbers only">
+</body>
+
+</html>
